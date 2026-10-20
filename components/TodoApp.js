@@ -20,6 +20,11 @@ export default function TodoApp() {
   const [todos, setTodos] = useState(loadTodos)
   const [filter, setFilter] = useState('all')
 
+  function clearAll() {
+  if (!window.confirm('すべての TODO を削除しますか？')) return
+  setTodos([])
+  }
+
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
   }, [todos])
@@ -58,9 +63,10 @@ export default function TodoApp() {
           全 {todos.length} 件 / 完了 {doneCount} 件 / 残り {remaining} 件
         </p>
       )}
-      <button onClick={clearDone} disabled={doneCount === 0}>
-        完了済みを削除
+      <button onClick={clearAll} disabled={todos.length === 0}>
+      すべて削除
       </button>
+
     </div>
   )
 }
